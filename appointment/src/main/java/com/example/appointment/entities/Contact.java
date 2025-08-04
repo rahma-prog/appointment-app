@@ -3,30 +3,39 @@ package com.example.appointment.entities;
 import com.example.appointment.entities.enums.ContactStatus;
 import com.example.appointment.entities.enums.ContactType;
 import com.example.appointment.entities.enums.ContactUsage;
+import com.example.appointment.validation.ValidContactValue;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "contacts")
+@ValidContactValue
 public class Contact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Contact value is required")
     private String value;
 
 
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Contact type is required")
     private ContactType type;
 
 
-
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Contact status is required")
     private ContactStatus status;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "Contact usage is required")
     private ContactUsage usage;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

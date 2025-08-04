@@ -2,13 +2,16 @@ package com.example.appointment.controllers;
 
 import com.example.appointment.entities.User;
 import com.example.appointment.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@Validated
 public class UserController {
 
     @Autowired
@@ -20,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
+    public User createUser(@RequestBody @Valid User user) {
         return userService.createUser(user);
     }
 

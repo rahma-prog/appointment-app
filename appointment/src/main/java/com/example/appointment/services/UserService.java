@@ -2,7 +2,9 @@ package com.example.appointment.services;
 
 import com.example.appointment.entities.User;
 import com.example.appointment.repositories.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,16 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+    private final PasswordEncoder passwordEncoder;
 
-    public User createUser(User user) {
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
+    public User createUser( @Valid User user) {
+        String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
+
         return userRepository.save(user);
     }
 

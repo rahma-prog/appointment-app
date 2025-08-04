@@ -2,6 +2,7 @@ package com.example.appointment.controllers;
 
 import com.example.appointment.entities.Contact;
 import com.example.appointment.services.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,7 @@ public class ContactController {
     }
 
     @PostMapping
-    public Contact createContact(@RequestBody Contact contact) {
+    public Contact createContact(@RequestBody @Valid Contact contact) {
         return contactService.createContact(contact);
     }
 

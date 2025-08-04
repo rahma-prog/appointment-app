@@ -1,6 +1,7 @@
 package com.example.appointment.services;
 
 import com.example.appointment.entities.Contact;
+import com.example.appointment.exceptions.DuplicateContactException;
 import com.example.appointment.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,13 @@ public class ContactService {
     }
 
     public Contact createContact(Contact contact) {
+        boolean exists = contactRepository.existsByValueAndType(contact.getValue(), contact.getType());
+        if (exists) {
+            throw new IllegalArgumentException("A contact with this " + contact.getType() + " already exists");
+        }
         return contactRepository.save(contact);
     }
+
 
     public void deleteContact(Long id) {
         contactRepository.deleteById(id);

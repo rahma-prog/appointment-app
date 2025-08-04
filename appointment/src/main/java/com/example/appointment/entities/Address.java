@@ -1,11 +1,19 @@
 package com.example.appointment.entities;
 
 import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.NotBlank;
 
 @Embeddable
 public class Address {
+
+    @NotBlank(message = "Governorate is required")
     private String governorate;
+
+    @NotBlank(message = "City is required")
     private String city;
+
+
+    @NotBlank(message = "Postal code is required")
     private String postalCode;
 
     public String getGovernorate() {
