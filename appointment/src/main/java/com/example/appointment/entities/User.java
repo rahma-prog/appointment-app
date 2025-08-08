@@ -1,17 +1,18 @@
 package com.example.appointment.entities;
 
+import com.example.appointment.entities.enums.DocumentType;
+import com.example.appointment.entities.enums.Gender;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users",uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,14 +30,34 @@ public class User {
 
     private LocalDateTime createdAt;
 
-    @Embedded
+    @Enumerated(EnumType.STRING)
+    private DocumentType documentType;
+
+
+    @NotBlank(message = "Document value is required")
+    @Column(name = "document_value")
+    private String documentValue;
+
+
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    private LocalDate birthDate;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
-    private Address address;
+    private List<Address> addresses;
+
+
 
     @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
     private List<Contact> contacts;
+
+
 
     @PrePersist
     public void onCreate() {
@@ -75,11 +96,60 @@ public class User {
         this.id = id;
     }
 
-    public Address getAddress() {
-        return address;
+    public List<Address> getAddresses() {
+        return addresses;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public DocumentType getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(DocumentType documentType) {
+        this.documentType = documentType;
+    }
+
+
+    public String getDocumentValue() {
+        return documentValue;
+    }
+
+    public void setDocumentValue(String documentValue) {
+        this.documentValue = documentValue;
     }
 }

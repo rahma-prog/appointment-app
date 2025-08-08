@@ -1,10 +1,20 @@
 package com.example.appointment.entities;
 
-import jakarta.persistence.Embeddable;
+import com.example.appointment.entities.enums.AddressType;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-@Embeddable
+@Entity
+@Table(name = "addresses")
 public class Address {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank(message = "Street is required")
+    private String street;
 
     @NotBlank(message = "Governorate is required")
     private String governorate;
@@ -12,9 +22,33 @@ public class Address {
     @NotBlank(message = "City is required")
     private String city;
 
+    @NotBlank(message = "Zip code is required")
+    private String zipCode;
 
-    @NotBlank(message = "Postal code is required")
-    private String postalCode;
+    @Enumerated(EnumType.STRING)
+    private AddressType type;
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
 
     public String getGovernorate() {
         return governorate;
@@ -32,11 +66,28 @@ public class Address {
         this.city = city;
     }
 
-    public String getPostalCode() {
-        return postalCode;
+    public String getZipCode() {
+        return zipCode;
     }
 
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public AddressType getType() {
+        return type;
+    }
+
+    public void setType(AddressType type) {
+        this.type = type;
     }
 }
+

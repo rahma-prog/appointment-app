@@ -23,6 +23,7 @@ public class Contact {
 
 
     @Enumerated(EnumType.STRING)
+//    @EnumValidator(enumClass = ContactType.class, message = "Type must be EMAIL or PHONE")
     @NotNull(message = "Contact type is required")
     private ContactType type;
 
@@ -35,9 +36,10 @@ public class Contact {
     @NotNull(message = "Contact usage is required")
     private ContactUsage usage;
 
-    @JsonBackReference
+//    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     public Contact() {}

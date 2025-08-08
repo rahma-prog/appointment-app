@@ -13,15 +13,30 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<List<String>> handleValidationErrors(MethodArgumentNotValidException ex) {
-        List<String> errors = ex.getBindingResult().getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .toList();
+    public ResponseEntity<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errorResponse = new HashMap<>();
 
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        ex.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .filter(message -> message != null && !message.isBlank()) // null-safe
+                .findFirst()
+                .ifPresentOrElse(
+                        message -> errorResponse.put("error", message),
+                        () -> errorResponse.put("error", "Validation error")
+                );
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<List<String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+//        List<String> errors = ex.getBindingResult().getAllErrors().stream()
+//                .map(DefaultMessageSourceResolvable::getDefaultMessage)
+//                .toList();
+//
+//        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+//    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -35,6 +50,9 @@ public class ValidationExceptionHandler {
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+
+
 
 
 

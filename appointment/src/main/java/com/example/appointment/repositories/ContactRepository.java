@@ -10,4 +10,5 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     List<Contact> findByUserId(Long userId);
     boolean existsByValueAndType(String value, ContactType type);
 
+
 }
