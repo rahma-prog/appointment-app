@@ -8,10 +8,12 @@ import com.example.appointment.repositories.ContactRepository;
 import com.example.appointment.repositories.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -26,18 +28,18 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-//    public List<User> getAllUsers() {
-//        return userRepository.findAll();
-//    }
-////    private final PasswordEncoder passwordEncoder;
-////
-////    public UserService(PasswordEncoder passwordEncoder) {
-////        this.passwordEncoder = passwordEncoder;
-//    }
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+    private final PasswordEncoder passwordEncoder;
+
+    public UserService(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
     public User createUser( @Valid User user) {
-//        String rawPassword = user.getPassword();
-//        String encodedPassword = passwordEncoder.encode(rawPassword);
-//        user.setPassword(encodedPassword);
+        String rawPassword = user.getPassword();
+        String encodedPassword = passwordEncoder.encode(rawPassword);
+        user.setPassword(encodedPassword);
         if (user.getContacts() != null) {
             for (Contact contact : user.getContacts()) {
                 if (contact.getType() == ContactType.EMAIL) {

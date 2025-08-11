@@ -2,6 +2,7 @@ package com.example.appointment.entities;
 
 import com.example.appointment.entities.enums.DocumentType;
 import com.example.appointment.entities.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -26,6 +27,7 @@ public class User {
 
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters long")
+    @JsonIgnore
     private String password;
 
     private LocalDateTime createdAt;
