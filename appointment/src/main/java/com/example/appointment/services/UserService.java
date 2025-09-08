@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Pageable;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class UserService {
 
@@ -26,18 +28,9 @@ public class UserService {
         return userRepository.findAll(pageable);
     }
 
-//    public List<User> getAllUsers() {
-//        return userRepository.findAll();
-//    }
-////    private final PasswordEncoder passwordEncoder;
-////
-////    public UserService(PasswordEncoder passwordEncoder) {
-////        this.passwordEncoder = passwordEncoder;
-//    }
+
     public User createUser( @Valid User user) {
-//        String rawPassword = user.getPassword();
-//        String encodedPassword = passwordEncoder.encode(rawPassword);
-//        user.setPassword(encodedPassword);
+
         if (user.getContacts() != null) {
             for (Contact contact : user.getContacts()) {
                 if (contact.getType() == ContactType.EMAIL) {
@@ -63,6 +56,9 @@ public class UserService {
     }
 
     public void deleteUser(Long userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new IllegalArgumentException("Agency not found with id: " + userId);
+        }
         userRepository.deleteById(userId);
     }
 }

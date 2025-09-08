@@ -1,4 +1,4 @@
-package com.example.appointment.validation;
+package com.example.appointment.validations;
 
 import com.example.appointment.entities.Contact;
 import com.example.appointment.entities.enums.ContactType;
@@ -57,23 +57,6 @@ private static final Pattern PHONE_FORMAT_PATTERN = Pattern.compile("^[0-9\\s]+$
                 .addConstraintViolation();
         return false;
     }
-//
-//        boolean isValid = true;
-//
-//        if (contact.getType() == ContactType.EMAIL) {
-//            isValid = EMAIL_PATTERN.matcher(contact.getValue()).matches();
-//        } else if (contact.getType() == ContactType.PHONE) {
-//            isValid = PHONE_PATTERN.matcher(contact.getValue()).matches();
-//        }
-//
-//        if (!isValid) {
-//            context.disableDefaultConstraintViolation();
-//            context.buildConstraintViolationWithTemplate("Invalid format for contact value: " + contact.getType())
-//                    .addPropertyNode("value")
-//                    .addConstraintViolation();
-//        }
-//
-//        return isValid;
-//    }
+
 
 }

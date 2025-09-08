@@ -3,7 +3,7 @@ package com.example.appointment.entities;
 import com.example.appointment.entities.enums.ContactStatus;
 import com.example.appointment.entities.enums.ContactType;
 import com.example.appointment.entities.enums.ContactUsage;
-import com.example.appointment.validation.ValidContactValue;
+import com.example.appointment.validations.ValidContactValue;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;

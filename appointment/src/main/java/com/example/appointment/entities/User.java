@@ -2,6 +2,8 @@ package com.example.appointment.entities;
 
 import com.example.appointment.entities.enums.DocumentType;
 import com.example.appointment.entities.enums.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -9,6 +11,7 @@ import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -45,17 +48,26 @@ public class User {
 
     private LocalDate birthDate;
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @JsonIgnoreProperties("user")
     private List<Address> addresses;
 
 
 
-    @JsonManagedReference
+//    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Valid
+    @JsonIgnoreProperties("user")
     private List<Contact> contacts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    @JsonIgnoreProperties("user")
+    @JsonIgnore
+    private List<Appointment> appointments = new ArrayList<>();
+
+
 
 
 
@@ -151,5 +163,13 @@ public class User {
 
     public void setDocumentValue(String documentValue) {
         this.documentValue = documentValue;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }

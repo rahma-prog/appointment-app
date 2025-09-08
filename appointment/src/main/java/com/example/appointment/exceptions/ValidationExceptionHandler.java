@@ -19,7 +19,7 @@ public class ValidationExceptionHandler {
 
         ex.getBindingResult().getAllErrors().stream()
                 .map(DefaultMessageSourceResolvable::getDefaultMessage)
-                .filter(message -> message != null && !message.isBlank()) // null-safe
+                .filter(message -> message != null && !message.isBlank())
                 .findFirst()
                 .ifPresentOrElse(
                         message -> errorResponse.put("error", message),
@@ -29,14 +29,6 @@ public class ValidationExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<List<String>> handleValidationErrors(MethodArgumentNotValidException ex) {
-//        List<String> errors = ex.getBindingResult().getAllErrors().stream()
-//                .map(DefaultMessageSourceResolvable::getDefaultMessage)
-//                .toList();
-//
-//        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -50,10 +42,4 @@ public class ValidationExceptionHandler {
         errorResponse.put("error", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
-
-
-
-
-
-
 }

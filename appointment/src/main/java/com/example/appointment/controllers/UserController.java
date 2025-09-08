@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Pageable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api/users")
 @Validated
 public class UserController {
@@ -25,14 +29,11 @@ public class UserController {
 
 
     @GetMapping
-    public Page<User> getAllUsers(@PageableDefault(size = 10) Pageable pageable) {
-        return userService.getAllUsers(pageable);
+    public ResponseEntity<Page<User>> getAllUsers(@PageableDefault(size = 10) Pageable pageable) {
+        Page<User> page = userService.getAllUsers(pageable);
+        return ResponseEntity.ok(page);
     }
 
-//    @GetMapping
-//    public List<User> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody @Valid User user) {

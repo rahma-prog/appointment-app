@@ -2,6 +2,7 @@ package com.example.appointment.entities;
 
 import com.example.appointment.entities.enums.AddressType;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
@@ -31,7 +32,14 @@ public class Address {
     @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("addresses")
     private User user;
+
+//    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "agency_id")
+    private Agency agency;
+
 
 
     public Long getId() {
@@ -88,6 +96,14 @@ public class Address {
 
     public void setType(AddressType type) {
         this.type = type;
+    }
+
+    public Agency getAgency() {
+        return agency;
+    }
+
+    public void setAgency(Agency agency) {
+        this.agency = agency;
     }
 }
 
